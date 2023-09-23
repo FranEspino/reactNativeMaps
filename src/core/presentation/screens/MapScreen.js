@@ -6,38 +6,39 @@ import {colorPrimary} from '../assets/colors';
 import {usePermission} from '../hooks/usePermission';
 import {useSelector} from 'react-redux';
 import {
-  InterstitialAd,
-  AdEventType,
   TestIds,
   BannerAd,
   BannerAdSize,
+  useInterstitialAd,
 } from 'react-native-google-mobile-ads';
 
 const MapScreen = nativeStack => {
+  
+  const adUnitId = __DEV__
+    ? TestIds.INTERSTITIAL
+    : 'ca-app-pub-9592597937221392~5322039128';
 
-  const [loaded, setLoaded] = useState(false);
+  const adBannerId = __DEV__ 
+    ? TestIds.BANNER
+    : "ca-app-pub-9592597937221392~5322039128"
+
+  const {isLoaded, isClosed, load, show} = useInterstitialAd(adUnitId, {
+    requestNonPersonalizedAdsOnly: true,
+  });
   const [banner, setBanner] = useState(false);
   const {locations} = useSelector(state => state.locations);
   const {currentLocation} = usePermission();
   const mapViewRef = useRef(null);
-
-  const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL, {
-    requestNonPersonalizedAdsOnly: true,
-  });
-  interstitial.load();
+  
+  useEffect(() => {
+    load();
+  }, [load]);
 
   useEffect(() => {
-    const unsubscribe = interstitial.addAdEventListener(
-      AdEventType.LOADED, () => {
-      setLoaded(true);
-      console.log(interstitial)
-    });
-    
-    if(!interstitial){
-      interstitial.load();
+    if (isClosed) {
+      nativeStack.navigation.navigate('SavelocationsScreen');
     }
-    return unsubscribe;
-  }, []);
+  }, [isClosed]);
 
   return (
     <>
@@ -50,7 +51,6 @@ const MapScreen = nativeStack => {
               ref={el => (mapViewRef.current = el)}
               zoomControlEnabled={false}
               mapType="terrain"
-              // customMapStyle={mapstyle}
               showsUserLocation={true}
               showsMyLocationButton={false}
               provider={PROVIDER_GOOGLE}
@@ -89,7 +89,6 @@ const MapScreen = nativeStack => {
                 iconName={'my-location'}
                 style={{backgroundColor: colorPrimary}}
                 onPress={() => {
-                  interstitial.load();
                   const region = {
                     latitude: currentLocation.latitude,
                     longitude: currentLocation.longitude,
@@ -113,12 +112,10 @@ const MapScreen = nativeStack => {
                   backgroundColor: colorPrimary,
                 }}
                 onPress={() => {
-                  if (loaded) {
-                  //  interstitial.show();
+                  if (isLoaded) {
+                    show();
                   } else {
-//interstitial.show();
-
-                    //nativeStack.navigation.navigate('SavelocationsScreen');
+                    nativeStack.navigation.navigate('SavelocationsScreen');
                   }
                 }}
               />
@@ -127,7 +124,7 @@ const MapScreen = nativeStack => {
         )}
       </View>
       <BannerAd
-        unitId={TestIds.BANNER}
+        unitId={adBannerId}
         size={BannerAdSize.ADAPTIVE_BANNER}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,

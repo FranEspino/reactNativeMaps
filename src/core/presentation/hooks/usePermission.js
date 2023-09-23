@@ -36,6 +36,7 @@ export const usePermission = () => {
         });
       }
     }
+
   };
 
   const askCheckPermission = async () => {

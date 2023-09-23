@@ -1,4 +1,4 @@
-package com.maps;
+package com.fraporitmos.saveplacemaps;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

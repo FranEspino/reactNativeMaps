@@ -11,11 +11,12 @@ function locationReducer(state = initialState, action){
             const arrayExistCoordinates = state.locations.filter(
                 location => location.title !== action.payload.title
             )
-       
+    
             return {
                 ...state,
                 locations: [...arrayExistCoordinates, action.payload]
             }
+            
         default: 
             return state;
     }
