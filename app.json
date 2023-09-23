@@ -1,4 +1,8 @@
 {
   "name": "maps",
-  "displayName": "maps"
+  "displayName": "maps",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-9592597937221392~5322039128",
+    "ios_app_id": "ca-app-pub-9592597937221392~5322039128"
+  }
 }

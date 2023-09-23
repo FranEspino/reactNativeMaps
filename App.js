@@ -7,7 +7,10 @@ import {colorSecondary} from './src/core/presentation/assets/colors';
 import {Provider} from 'react-redux'
 import { Store,persistor } from './src/core/presentation/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+
+
 const App = () => {
+
 
   return (
     <Provider store={Store}>

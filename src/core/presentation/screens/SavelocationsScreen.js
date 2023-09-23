@@ -10,6 +10,7 @@ import DialogInput from 'react-native-dialog-input';
 import {useSaveLocation} from '../../domain/usecases/useSavelocation';
 
 const SavelocationsScreen = nativeStack => {
+
   const [showalert, setShowAlert] = useState(false);
   const [cutomlocation, setCustomLocation] = useState({
     latitude: 0,
@@ -49,10 +50,14 @@ const SavelocationsScreen = nativeStack => {
               latitudeDelta: 0.025,
               longitudeDelta: 0.021,
             }}></MapView>
+
           <DialogInput
             isDialogVisible={showalert}
             title={'Nueva ubicacion'}
+            hintTextColor={"#000000"}
             hintInput={'Titulo del lugar'}
+            submitText="Guardar"
+            cancelText="Cancelar"
             submitInput={inputText => {
               setShowAlert(!showalert);
               saveLocationRedux({
