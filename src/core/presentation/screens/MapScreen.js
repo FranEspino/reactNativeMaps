@@ -16,11 +16,11 @@ const MapScreen = nativeStack => {
   
   const adUnitId = __DEV__
     ? TestIds.INTERSTITIAL
-    : 'ca-app-pub-9592597937221392~5322039128';
+    : 'ca-app-pub-9592597937221392/2849882474'
 
   const adBannerId = __DEV__ 
     ? TestIds.BANNER
-    : "ca-app-pub-9592597937221392~5322039128"
+    : "ca-app-pub-9592597937221392/4072298957"
 
   const {isLoaded, isClosed, load, show} = useInterstitialAd(adUnitId, {
     requestNonPersonalizedAdsOnly: true,
